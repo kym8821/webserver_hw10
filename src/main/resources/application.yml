@@ -2,8 +2,12 @@
 server:
   port: 8080
   max-http-request-header-size: 10MB
-# application & cloud config client
+# spring application config
 spring:
+  web:
+    resources:
+      add-mappings: false
+  # mysql database config
   datasource:
     url: jdbc:mysql://localhost:3306/webserver
     username: root
@@ -19,7 +23,5 @@ spring:
       ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-# spring docs
-springdoc:
-  api-docs:
-    path: /users/v3/api-docs
+
+

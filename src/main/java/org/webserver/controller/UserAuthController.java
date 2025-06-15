@@ -7,11 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.webserver.consts.UserAuthConst;
 import org.webserver.dto.UserAuthDto;
-import org.webserver.dto.UserResponse;
+import org.webserver.exception.InvalidUserException;
 import org.webserver.service.UserService;
+
+import static org.webserver.dto.UserAuthDto.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,13 +26,12 @@ public class UserAuthController {
 
     @PostMapping("/sign-in")
     public String signInPost(
-            @ModelAttribute UserAuthDto userAuthDto,
+            @ModelAttribute UserAuthRequest userAuthRequest,
             HttpSession session,
             Model model) {
-        UserResponse userResponse = userService.signInUser(userAuthDto);
+         UserAuthResponse userResponse = userService.signInUser(userAuthRequest);
         if(userResponse == null) {
-            model.addAttribute("error", "Invalid username or password");
-            return "SignInPage";
+            throw new InvalidUserException("sign in error");
         }else{
             session.setAttribute(UserAuthConst.LOGIN_KEY, userResponse);
             return "redirect:/";
@@ -42,5 +42,24 @@ public class UserAuthController {
     public String signOut(HttpSession session) {
         session.removeAttribute(UserAuthConst.LOGIN_KEY);
         return "redirect:/";
+    }
+
+    @GetMapping("/sign-up")
+    public String signUp() {
+        return "SignUpPage";
+    }
+
+    @PostMapping("/sign-up")
+    public String signUpPost(
+            @ModelAttribute UserAuthRequest userAuthRequest,
+            HttpSession session,
+            Model model) {
+        UserAuthResponse userResponse = userService.signUpUser(userAuthRequest);
+        if(userResponse == null) {
+            throw new InvalidUserException("sign in error");
+        }else{
+            session.setAttribute(UserAuthConst.LOGIN_KEY, userResponse);
+            return "redirect:/";
+        }
     }
 }

@@ -1,18 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>로그인</title>
+    <meta charset="UTF-8">
+    <title>홈</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div th:if="${username != null}">
-    <h1>환영합니다 <span th:text="${username}"></span>님</h1>
-    <a th:href="@{/sign-out}">로그아웃</a>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div th:replace="~{Header.html}"></div>
+
+    <!-- login user -->
+    <div th:if="${username != null}" class="text-center">
+        <h1 class="mb-4">
+            환영합니다, <span th:text="${username}" class="text-primary fw-bold"></span>님!
+        </h1>
+        <div class="d-grid gap-2 d-md-block">
+            <a th:href="@{/books}" class="btn btn-success me-2">📚 책 목록 보기</a>
+            <a th:href="@{/sign-out}" class="btn btn-outline-danger">로그아웃</a>
+        </div>
+    </div>
+
+    <!-- guest -->
+    <div th:unless="${username != null}" class="text-center">
+        <h1 class="mb-4">로그인 후 이용 가능합니다</h1>
+        <div class="d-grid gap-2 d-md-block">
+            <a th:href="@{/sign-in}" class="btn btn-primary me-2">로그인</a>
+            <a th:href="@{/sign-up}" class="btn btn-outline-secondary">회원가입</a>
+        </div>
+    </div>
 </div>
 
-<div th:unless="${username != null}">
-    <h1><로></로>그인 후 이용 가능합니다</h1>
-    <a th:href="@{/sign-up}">회원가입</a>
-    <a th:href="@{/sign-in}">로그인</a>
-</div>
 </body>
 </html>

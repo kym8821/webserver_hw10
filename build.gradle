@@ -11,13 +11,21 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+jar{
+    enabled=false
+}
+
 dependencies {
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    // mvc-ui
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
     // mysql
     runtimeOnly 'com.mysql:mysql-connector-j'
     // thymeleaf
@@ -25,7 +33,11 @@ dependencies {
     // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    // java-faker
+    implementation ('com.github.javafaker:javafaker:1.0.2') { exclude module: 'snakeyaml' }
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
     // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

@@ -5,8 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webserver.domain.User;
 import org.webserver.dto.UserAuthDto;
-import org.webserver.dto.UserResponse;
 import org.webserver.repository.UserRepository;
+
+import static org.webserver.dto.UserAuthDto.*;
 
 @Service
 @RequiredArgsConstructor
@@ -14,9 +15,9 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserResponse signInUser(UserAuthDto userAuthDto) {
-        String username = userAuthDto.getUsername();
-        String password = userAuthDto.getPassword();
+    public UserAuthResponse signInUser(UserAuthRequest userAuthRequest) {
+        String username = userAuthRequest.getUsername();
+        String password = userAuthRequest.getPassword();
         if(username==null || password==null) {
             return null;
         }
@@ -24,13 +25,13 @@ public class UserService {
         if (user == null || !user.getPassword().equals(password)) {
             return null;
         }
-        return UserResponse.fromUser(user);
+        return UserAuthResponse.fromUser(user);
     }
 
     @Transactional
-    public UserResponse signUpUser(UserAuthDto userAuthDto) {
-        String username = userAuthDto.getUsername();
-        String password = userAuthDto.getPassword();
+    public UserAuthResponse signUpUser(UserAuthRequest userAuthRequest) {
+        String username = userAuthRequest.getUsername();
+        String password = userAuthRequest.getPassword();
         if(username==null || password==null) {
             return null;
         }
@@ -39,6 +40,6 @@ public class UserService {
         User savedUser = userRepository.save(User.builder()
                 .username(username)
                 .password(password).build());
-        return UserResponse.fromUser(savedUser);
+        return UserAuthResponse.fromUser(savedUser);
     }
 }
