@@ -12,7 +12,7 @@
 ---
 
 ## 📄 프로젝트 설명서 (PDF)
-[📄 AD 프로젝트 설명서 다운로드 (PDF)](./AD_프로젝트_PPT_12조_20201438_김용민.pdf)
+[📄 AD 프로젝트 설명서 (PDF)](https://drive.google.com/file/d/1aHzOJ5XdGfSFU8ICyY07cw0QM36PtmS1/view?usp=drive_link)
 
 > ※ 위 링크를 클릭해 PDF 파일을 직접 열어주세요.
 
